@@ -1,0 +1,143 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a server for a student management system.",
+        "title": "Student Management API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8081",
+    "basePath": "/api/v1",
+    "paths": {
+        "/students": {
+            "get": {
+                "description": "get students",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "students"
+                ],
+                "summary": "List students",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/internal_student.Student"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Template_pkg_Utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Template_internal_entity.Gender": {
+            "type": "integer",
+            "enum": [
+                0,
+                1,
+                2
+            ],
+            "x-enum-varnames": [
+                "Male",
+                "Female",
+                "Other"
+            ]
+        },
+        "Template_pkg_Utils.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "status_code": {
+                    "type": "integer"
+                }
+            }
+        },
+        "internal_student.Student": {
+            "type": "object",
+            "properties": {
+                "course": {
+                    "type": "integer",
+                    "format": "int",
+                    "example": 2022
+                },
+                "date_of_birth": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2004-07-05"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "abc@gmail.com"
+                },
+                "gender": {
+                    "format": "int",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/Template_internal_entity.Gender"
+                        }
+                    ],
+                    "example": 0
+                },
+                "id": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "22120249"
+                },
+                "isdeleted": {
+                    "type": "boolean",
+                    "format": "bool",
+                    "example": false
+                },
+                "mailing_address": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "789 Oak St, City, Country"
+                },
+                "name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Tran Ngoc Nhan"
+                },
+                "nationality": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Vietnamese"
+                },
+                "permanent_address": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "123 Main St, City, Country"
+                },
+                "phone": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "0123456789"
+                },
+                "temporary_address": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "456 Elm St, City, Country"
+                }
+            }
+        }
+    }
+}

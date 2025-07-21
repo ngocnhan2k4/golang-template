@@ -1,0 +1,102 @@
+basePath: /api/v1
+definitions:
+  Template_internal_entity.Gender:
+    enum:
+    - 0
+    - 1
+    - 2
+    type: integer
+    x-enum-varnames:
+    - Male
+    - Female
+    - Other
+  Template_pkg_Utils.ErrorResponse:
+    properties:
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  internal_student.Student:
+    properties:
+      course:
+        example: 2022
+        format: int
+        type: integer
+      date_of_birth:
+        example: "2004-07-05"
+        format: date
+        type: string
+      email:
+        example: abc@gmail.com
+        format: string
+        type: string
+      gender:
+        allOf:
+        - $ref: '#/definitions/Template_internal_entity.Gender'
+        example: 0
+        format: int
+      id:
+        example: "22120249"
+        format: string
+        type: string
+      isdeleted:
+        example: false
+        format: bool
+        type: boolean
+      mailing_address:
+        example: 789 Oak St, City, Country
+        format: string
+        type: string
+      name:
+        example: Tran Ngoc Nhan
+        format: string
+        type: string
+      nationality:
+        example: Vietnamese
+        format: string
+        type: string
+      permanent_address:
+        example: 123 Main St, City, Country
+        format: string
+        type: string
+      phone:
+        example: "0123456789"
+        format: string
+        type: string
+      temporary_address:
+        example: 456 Elm St, City, Country
+        format: string
+        type: string
+    type: object
+host: localhost:8081
+info:
+  contact: {}
+  description: This is a server for a student management system.
+  title: Student Management API
+  version: "1.0"
+paths:
+  /students:
+    get:
+      consumes:
+      - application/json
+      description: get students
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_student.Student'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Template_pkg_Utils.ErrorResponse'
+      summary: List students
+      tags:
+      - students
+schemes:
+- http
+swagger: "2.0"

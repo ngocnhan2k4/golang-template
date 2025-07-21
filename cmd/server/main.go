@@ -4,6 +4,7 @@ import (
 	"Template/configs"
 	"Template/internal/student"
 	"Template/pkg/dbcontext"
+	_ "Template/docs"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,10 +12,18 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
+// @title			Student Management API
+// @version		1.0
+// @description	This is a server for a student management system.
+// @host			localhost:8081
+// @BasePath		/api/v1
+// @schemes		http
 func main() {
 	configs.LoadConfig()
 	db, err := gorm.Open(postgres.Open(configs.AppConfig.DSN), &gorm.Config{})
@@ -32,6 +41,7 @@ func main() {
 		log.Fatalf("failed to start server: %v", err)
 		os.Exit(1)
 	}
+
 }
 
 // buildHandler sets up the HTTP routing and builds an HTTP handler.
@@ -46,6 +56,8 @@ func buildHandler(db *dbcontext.DB) http.Handler {
 	studentGroup := v1.Group("/students")
 	studentService := student.NewRepository(db)
 	student.RegisterHandlers(studentGroup, studentService)
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router
 }
