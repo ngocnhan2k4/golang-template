@@ -13,3 +13,4 @@ migrate -path ./migrations -database "postgres://postgres:123456@localhost:5432/
 
 - TODO
     - Create full database: 27/07
+    - Implement API: 28 - 30/07

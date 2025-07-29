@@ -15,4 +15,8 @@ type Student struct {
 	Nationality      string    `gorm:"type:varchar(50)" json:"nationality" example:"Vietnamese" format:"string"`
 	Course           int       `json:"course" example:"2022" format:"int"`
 	Isdeleted        bool      `json:"isdeleted" example:"false" format:"bool"`
+	ProgramID int
+	StatusID int
+	FacultyID int
+
 }
