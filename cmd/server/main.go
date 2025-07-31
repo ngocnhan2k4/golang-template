@@ -59,10 +59,10 @@ func buildHandler(db *dbcontext.DB, logger log.Logger) http.Handler {
 	router.Use(gin.Recovery())
 	router.Use(cors.Default())
 
-	v1 := router.Group("/api/v1")
+	v1 := router.Group("/api")
 
 	studentGroup := v1.Group("/students")
-	facultyGroup := v1.Group("/faculties")
+	facultyGroup := v1.Group("/Faculty")
 	student.RegisterHandlers(studentGroup, student.NewService(student.NewRepository(db)))
 	faculty.RegisterHandlers(facultyGroup, faculty.NewService(faculty.NewRepository(db), logger), logger)
 
@@ -70,4 +70,3 @@ func buildHandler(db *dbcontext.DB, logger log.Logger) http.Handler {
 
 	return router
 }
-

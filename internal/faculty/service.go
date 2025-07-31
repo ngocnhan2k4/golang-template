@@ -5,6 +5,7 @@ import (
 	"Template/pkg/log"
 	"context"
 	"errors"
+	"strconv"
 
 	"github.com/jackc/pgx/v5/pgconn"
 	"gorm.io/gorm"
@@ -22,13 +23,18 @@ type Faculty struct {
 }
 
 type CreateFacultyRequest struct {
-	Id int
-	entity.LocalizedName
+	Id                   string `json:"id"`
+	entity.LocalizedName `json:"name"`
 }
 
 type UpdateFacultyRequest struct {
-	Id            int
-	LocalizedName entity.LocalizedName
+	Id            string               `json:"id"`
+	LocalizedName entity.LocalizedName `json:"name"`
+}
+
+type GetacultyRequest struct {
+	Id            int                  `json:"id"`
+	LocalizedName entity.LocalizedName `json:"name"`
 }
 
 type service struct {
@@ -41,7 +47,9 @@ func NewService(repo Repository, logger log.Logger) Service {
 }
 
 func (s service) Create(ctx context.Context, faculty CreateFacultyRequest) entity.Result {
+	id, _ := strconv.Atoi(faculty.Id)
 	err := s.repo.Create(ctx, entity.Faculty{
+		ID:      id,
 		Name:    faculty.LocalizedName.Vi,
 		EngName: faculty.LocalizedName.En,
 	})
@@ -57,7 +65,7 @@ func (s service) Create(ctx context.Context, faculty CreateFacultyRequest) entit
 		}
 		return entity.Fail("ADD_FACULTY_FAILED", "Thêm khoa thất bại.", nil)
 	}
-	return entity.Ok(faculty, "")
+	return entity.Ok(faculty, nil)
 }
 
 func (s service) Query(ctx context.Context) entity.Result {
@@ -65,14 +73,26 @@ func (s service) Query(ctx context.Context) entity.Result {
 	if err != nil {
 		return entity.Fail("GET_FACULTIES_FAILED", err.Error(), nil)
 	}
-	return entity.Ok(faculties, "")
+	res := make([]GetacultyRequest, len(faculties))
+	for i := range faculties {
+		res[i] = GetacultyRequest{
+			Id: faculties[i].ID,
+			LocalizedName: entity.LocalizedName{
+				Vi: faculties[i].Name,
+				En: faculties[i].EngName,
+			},
+		}
+	}
+	return entity.Ok(res, nil)
 }
 
 func (s service) Update(ctx context.Context, id string, faculty UpdateFacultyRequest) entity.Result {
 	if _, err := s.repo.Get(ctx, id); errors.Is(err, gorm.ErrRecordNotFound) {
 		return entity.Fail("ADD_FACULTY_FAILED", "Khoa không tồn tại.", nil)
 	}
+	intID, _ := strconv.Atoi(id)
 	err := s.repo.Update(ctx, entity.Faculty{
+		ID:      intID,
 		Name:    faculty.LocalizedName.Vi,
 		EngName: faculty.LocalizedName.En,
 	})
@@ -88,13 +108,13 @@ func (s service) Update(ctx context.Context, id string, faculty UpdateFacultyReq
 		}
 		return entity.Fail("ADD_FACULTY_FAILED", "Thêm khoa thất bại.", nil)
 	}
-	return entity.Ok(faculty, "")
+	return entity.Ok(faculty, nil)
 }
 
 func (s service) Delete(ctx context.Context, id string) entity.Result {
 	err := s.repo.Delete(ctx, id)
-	if err != nil {	
+	if err != nil {
 		return entity.Fail("DELETE_FACULTY_FAILED", err.Error(), nil)
 	}
-	return entity.Ok(id, "")
+	return entity.Ok(id, nil)
 }
