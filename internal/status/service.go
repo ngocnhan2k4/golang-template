@@ -35,7 +35,7 @@ type UpdateStatusRequest struct {
 }
 
 type GetStatusRequest struct {
-	Id            int                  `json:"id"`
+	Id            string                  `json:"id"`
 	LocalizedName entity.LocalizedName `json:"name"`
 	Order         int                  `json:"order"`
 }
@@ -78,7 +78,7 @@ func (s service) Query(ctx context.Context) entity.Result {
 	res := make([]GetStatusRequest, len(statuses))
 	for i := range statuses {
 		res[i] = GetStatusRequest{
-			Id: statuses[i].ID,
+			Id: strconv.Itoa(statuses[i].ID),
 			LocalizedName: entity.LocalizedName{
 				Vi: statuses[i].Name,
 				En: statuses[i].EngName,

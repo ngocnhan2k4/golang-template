@@ -33,7 +33,7 @@ type UpdateFacultyRequest struct {
 }
 
 type GetacultyRequest struct {
-	Id            int                  `json:"id"`
+	Id            string               `json:"id"`
 	LocalizedName entity.LocalizedName `json:"name"`
 }
 
@@ -76,7 +76,7 @@ func (s service) Query(ctx context.Context) entity.Result {
 	res := make([]GetacultyRequest, len(faculties))
 	for i := range faculties {
 		res[i] = GetacultyRequest{
-			Id: faculties[i].ID,
+			Id: strconv.Itoa(faculties[i].ID),
 			LocalizedName: entity.LocalizedName{
 				Vi: faculties[i].Name,
 				En: faculties[i].EngName,
