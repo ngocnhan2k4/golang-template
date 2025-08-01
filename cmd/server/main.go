@@ -4,6 +4,7 @@ import (
 	"Template/configs"
 	_ "Template/docs"
 	"Template/internal/faculty"
+	"Template/internal/status"
 	"Template/internal/student"
 	"Template/pkg/accesslog"
 	"Template/pkg/dbcontext"
@@ -63,8 +64,10 @@ func buildHandler(db *dbcontext.DB, logger log.Logger) http.Handler {
 
 	studentGroup := v1.Group("/students")
 	facultyGroup := v1.Group("/Faculty")
+	statusGroup := v1.Group("/StudentStatus")
 	student.RegisterHandlers(studentGroup, student.NewService(student.NewRepository(db)))
 	faculty.RegisterHandlers(facultyGroup, faculty.NewService(faculty.NewRepository(db), logger), logger)
+	status.RegisterHandlers(statusGroup, status.NewService(status.NewRepository(db), logger), logger)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

@@ -1,0 +1,5 @@
+ALTER TABLE student_statuses
+DROP CONSTRAINT student_statuses_name_eng_key;
+ALTER TABLE student_statuses
+DROP CONSTRAINT student_statuses_name_key;
+
