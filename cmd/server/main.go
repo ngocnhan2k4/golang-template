@@ -5,9 +5,11 @@ import (
 	_ "Template/docs"
 	"Template/internal/faculty"
 	"Template/internal/program"
+	"Template/internal/setting"
 	"Template/internal/status"
 	"Template/internal/student"
-	"Template/pkg/accesslog"
+
+	// "Template/pkg/accesslog"
 	"Template/pkg/dbcontext"
 	"Template/pkg/log"
 	"context"
@@ -57,7 +59,7 @@ func main() {
 func buildHandler(db *dbcontext.DB, logger log.Logger) http.Handler {
 	router := gin.New()
 
-	router.Use(accesslog.Handler(logger))
+	//router.Use(accesslog.Handler(logger))
 	router.Use(gin.Recovery())
 	router.Use(cors.Default())
 
@@ -67,10 +69,12 @@ func buildHandler(db *dbcontext.DB, logger log.Logger) http.Handler {
 	facultyGroup := v1.Group("/Faculty")
 	statusGroup := v1.Group("/StudentStatus")
 	programGroup := v1.Group("/Program")
+	settingGroup := v1.Group("/settings/email-domain")
 	student.RegisterHandlers(studentGroup, student.NewService(student.NewRepository(db)))
 	faculty.RegisterHandlers(facultyGroup, faculty.NewService(faculty.NewRepository(db), logger), logger)
 	status.RegisterHandlers(statusGroup, status.NewService(status.NewRepository(db), logger), logger)
 	program.RegisterHandlers(programGroup, program.NewService(program.NewRepository(db), logger), logger)
+	setting.RegisterHandlers(settingGroup, setting.NewService(setting.NewRepository(db), logger), logger)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

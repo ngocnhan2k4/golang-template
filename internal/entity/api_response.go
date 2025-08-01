@@ -22,10 +22,10 @@ func Success(title string, data interface{}, message *string) APIResponse {
 	}
 }
 
-func BadRequest(title string, data interface{}, error APIError, message *string, errors []APIError) APIResponse {
+func BadRequest(title string, data interface{}, error *APIError, message *string, errors []APIError) APIResponse {
 	return APIResponse{
 		Data:    data,
-		Error:   &error,
+		Error:   error,
 		Message: message,
 		Errors:  errors,
 	}

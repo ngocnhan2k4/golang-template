@@ -28,7 +28,7 @@ func (r resource) query(c *gin.Context) {
 			Code:    res.ErrorCode,
 			Message: res.ErrorMessage,
 		}
-		c.JSON(http.StatusBadRequest, entity.BadRequest("", nil, err, nil, nil))
+		c.JSON(http.StatusBadRequest, entity.BadRequest("", nil, &err, nil, nil))
 		return
 	}
 	c.JSON(200, entity.Success("", res.Data, nil))
@@ -47,7 +47,7 @@ func (r resource) create(c *gin.Context) {
 			Code:    res.ErrorCode,
 			Message: res.ErrorMessage,
 		}
-		c.JSON(http.StatusBadRequest, entity.BadRequest("", nil, err, nil, nil))
+		c.JSON(http.StatusBadRequest, entity.BadRequest("", nil, &err, nil, nil))
 		return
 	}
 	c.JSON(http.StatusCreated, entity.Success("", res.Data, nil))
@@ -67,7 +67,7 @@ func (r resource) update(c *gin.Context) {
 			Code:    res.ErrorCode,
 			Message: res.ErrorMessage,
 		}
-		c.JSON(http.StatusBadRequest, entity.BadRequest("", nil, err, nil, nil))
+		c.JSON(http.StatusBadRequest, entity.BadRequest("", nil, &err, nil, nil))
 		return
 	}
 	c.JSON(http.StatusOK, entity.Success("", res.Data, nil))
@@ -81,7 +81,7 @@ func (r resource) delete(c *gin.Context) {
 			Code:    res.ErrorCode,
 			Message: res.ErrorMessage,
 		}
-		c.JSON(http.StatusBadRequest, entity.BadRequest("", nil, err, nil, nil))
+		c.JSON(http.StatusBadRequest, entity.BadRequest("", nil, &err, nil, nil))
 		return
 	}
 	c.JSON(http.StatusOK, entity.Success("", res.Data, res.Message))
