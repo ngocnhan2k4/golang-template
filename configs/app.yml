@@ -1,3 +1,6 @@
 DSN : "host=localhost user=postgres password=123456 dbname=mydb port=5432 sslmode=disable"
 Server:
   Port: 8081
+AddressApi:
+  BaseUrl: "https://provinces.open-api.vn/api"
+  CountriesUrl: "https://restcountries.com/v3.1/all?fields=name"

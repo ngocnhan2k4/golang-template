@@ -7,10 +7,14 @@ import (
 )
 
 type Config struct {
-	DSN string `mapstructure:"DSN"`
-	Server struct{
+	DSN    string `mapstructure:"DSN"`
+	Server struct {
 		Port int `mapstructure:"Port"`
 	}
+	AddressApi struct {
+		BaseUrl      string `mapstructure:"BaseUrl"`
+		CountriesUrl string `mapstructure:"CountriesUrl"`
+	} `mapstructure:"AddressApi"`
 }
 
 var AppConfig Config
