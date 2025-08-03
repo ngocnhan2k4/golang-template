@@ -4,6 +4,7 @@ import (
 	"Template/configs"
 	_ "Template/docs"
 	"Template/internal/address"
+	"Template/internal/course"
 	"Template/internal/faculty"
 	"Template/internal/program"
 	"Template/internal/setting"
@@ -72,11 +73,13 @@ func buildHandler(db *dbcontext.DB, logger log.Logger) http.Handler {
 	programGroup := v1.Group("/Program")
 	settingGroup := v1.Group("/settings/email-domain")
 	addressGroup := v1.Group("/Address")
+	courseGroup := v1.Group("/Course")
 	student.RegisterHandlers(studentGroup, student.NewService(student.NewRepository(db)))
 	faculty.RegisterHandlers(facultyGroup, faculty.NewService(faculty.NewRepository(db), logger), logger)
 	status.RegisterHandlers(statusGroup, status.NewService(status.NewRepository(db), logger), logger)
 	program.RegisterHandlers(programGroup, program.NewService(program.NewRepository(db), logger), logger)
 	setting.RegisterHandlers(settingGroup, setting.NewService(setting.NewRepository(db), logger), logger)
+	course.RegisterHandlers(courseGroup, course.NewService(course.NewRepository(db), logger), logger)
 	address.RegisterHandlers(addressGroup, address.NewService(logger), logger)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
