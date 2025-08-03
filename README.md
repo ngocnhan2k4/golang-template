@@ -15,3 +15,5 @@ migrate -path ./migrations -database "postgres://postgres:123456@localhost:5432/
     - Create full database: 27/07
     - Implement API: 28 - 30/07
     - Update course: check has student enroll
+    - Current student in get class api
+    - Con 2 api score cua class

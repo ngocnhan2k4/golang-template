@@ -10,6 +10,7 @@ import (
 	"Template/internal/setting"
 	"Template/internal/status"
 	"Template/internal/student"
+	"Template/internal/class"
 
 	// "Template/pkg/accesslog"
 	"Template/pkg/dbcontext"
@@ -74,6 +75,7 @@ func buildHandler(db *dbcontext.DB, logger log.Logger) http.Handler {
 	settingGroup := v1.Group("/settings/email-domain")
 	addressGroup := v1.Group("/Address")
 	courseGroup := v1.Group("/Course")
+	classGroup := v1.Group("/Class")
 	student.RegisterHandlers(studentGroup, student.NewService(student.NewRepository(db)))
 	faculty.RegisterHandlers(facultyGroup, faculty.NewService(faculty.NewRepository(db), logger), logger)
 	status.RegisterHandlers(statusGroup, status.NewService(status.NewRepository(db), logger), logger)
@@ -81,6 +83,7 @@ func buildHandler(db *dbcontext.DB, logger log.Logger) http.Handler {
 	setting.RegisterHandlers(settingGroup, setting.NewService(setting.NewRepository(db), logger), logger)
 	course.RegisterHandlers(courseGroup, course.NewService(course.NewRepository(db), logger), logger)
 	address.RegisterHandlers(addressGroup, address.NewService(logger), logger)
+	class.RegisterHandlers(classGroup, class.NewService(class.NewRepository(db), logger), logger)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
