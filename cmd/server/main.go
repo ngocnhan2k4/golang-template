@@ -68,7 +68,7 @@ func buildHandler(db *dbcontext.DB, logger log.Logger) http.Handler {
 
 	v1 := router.Group("/api")
 
-	studentGroup := v1.Group("/students")
+	studentGroup := v1.Group("/Students")
 	facultyGroup := v1.Group("/Faculty")
 	statusGroup := v1.Group("/StudentStatus")
 	programGroup := v1.Group("/Program")
@@ -76,7 +76,7 @@ func buildHandler(db *dbcontext.DB, logger log.Logger) http.Handler {
 	addressGroup := v1.Group("/Address")
 	courseGroup := v1.Group("/Course")
 	classGroup := v1.Group("/Class")
-	student.RegisterHandlers(studentGroup, student.NewService(student.NewRepository(db)))
+	student.RegisterHandlers(studentGroup, student.NewService(student.NewRepository(db), logger), logger)
 	faculty.RegisterHandlers(facultyGroup, faculty.NewService(faculty.NewRepository(db), logger), logger)
 	status.RegisterHandlers(statusGroup, status.NewService(status.NewRepository(db), logger), logger)
 	program.RegisterHandlers(programGroup, program.NewService(program.NewRepository(db), logger), logger)

@@ -1,7 +1,7 @@
 package entity
 
 type APIError struct {
-	Index   int    `json:"index,omitempty"`
+	Index   *int    `json:"index,omitempty"`
 	Code    string `json:"code,omitempty"`
 	Message string `json:"message,omitempty"`
 }

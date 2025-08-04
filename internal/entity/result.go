@@ -6,7 +6,7 @@ type Result struct {
 	Message      *string
 	ErrorCode    string
 	ErrorMessage string
-	Errors       interface{}
+	Errors       []APIError
 }
 
 func Ok(data interface{}, message *string) Result {
@@ -17,7 +17,7 @@ func Ok(data interface{}, message *string) Result {
 	}
 }
 
-func Fail(errorCode string, errorMessage string, errors interface{}) Result {
+func Fail(errorCode string, errorMessage string, errors []APIError) Result {
 	return Result{
 		Success:      false,
 		Data:         nil,

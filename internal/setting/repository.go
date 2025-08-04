@@ -22,6 +22,8 @@ func NewRepository(db *dbcontext.DB) Repository {
 }
 
 func (r repository) Update(ctx context.Context, setting entity.Setting) error {
+	setting.EmailPattern = "^([\\w\\.\\-]+)@([\\w\\-]+)((\\.[\\w]{2,3})+)$"
+
 	tx := r.db.With(ctx).Save(&setting)
 	return tx.Error
 }
